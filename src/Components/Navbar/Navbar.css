@@ -132,6 +132,8 @@
   font-size: 12px;
   border-radius: 5px;
   cursor: pointer;
+  position: relative;
+  bottom: 5px;
   transition: 0.2s ease;
 }
 

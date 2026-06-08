@@ -75,7 +75,215 @@
   background: #2563eb;
   color: white;
 }
+.delete{
+  width: 50px;
+  background-color: white;
+  position: relative;
+  left: 96%;
+  bottom: 45px;
+}
+.del-book-btn{
+  width: 50px;
+  position: relative;
+  left: 2%;
+  bottom: 2px;
+}.user-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
 
+/* Header */
+.user-table thead {
+  background: #f3f4f6;
+}
+
+.user-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Rows */
+.user-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #444;
+}
+
+.user-table tr:hover {
+  background-color: #fafafa;
+}
+
+/* Action buttons */
+.user-table button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+/* Block / Activate button */
+.user-table button:first-child {
+  background-color: #3b82f6; /* blue */
+  color: white;
+}
+
+.user-table button:first-child:hover {
+  background-color: #2563eb;
+}
+
+/* Delete button */
+.delete-user {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.button-del-user {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.delete-user:hover .button-del-user {
+  transform: scale(1.2);
+}
+
+/* Make actions column align nicely */
+.user-table td:last-child,
+.user-table td:nth-last-child(2) {
+  text-align: center;
+}
+.del-book-btn img{
+  width: 100%;
+  height: 100%;
+}
+.books-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.books-table th,
+.books-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.books-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.books-table tr:hover {
+  background-color: #fafafa;
+}
+
+.del-book-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.del-book-btn img {
+  width: 20px;
+  height: 20px;
+}
+.delete-book{
+background-color: white;
+}
+.delete-btn{
+  width: 20px;
+  height: 20px;
+}
+.delete-btn img{
+  width: 100%;
+  height: 100%;
+}
+.category-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.category-form input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+}
+
+.category-form button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #16a34a;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.category-form button:hover {
+  background-color: #15803d;
+}
+
+/* Table */
+.category-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.category-table th {
+  background: #f3f4f6;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.category-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.category-table tr:hover {
+  background-color: #fafafa;
+}
+
+/* Delete button */
+.delete-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.delete-btn img {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.delete-btn:hover img {
+  transform: scale(1.2);
+}
 /* ================= MAIN ================= */
 .main {
   flex: 1;

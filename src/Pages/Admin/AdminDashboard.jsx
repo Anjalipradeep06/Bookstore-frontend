@@ -26,13 +26,13 @@ ChartJS.register(
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
-const initialBookForm = {
-  title: "",
-  author: "",
-  category: "",
-  description: "",
-  price: "",
-};
+  const initialBookForm = {
+    title: "",
+    author: "",
+    category: "",
+    description: "",
+    price: "",
+  };
   // DATA
   const [data, setData] = useState(null);
   const [users, setUsers] = useState([]);
@@ -87,42 +87,42 @@ const initialBookForm = {
     setBooks(res.data.data);
   };
 
-const addBook = async () => {
-  try {
-    const formData = new FormData();
+  const addBook = async () => {
+    try {
+      const formData = new FormData();
 
-    formData.append("title", bookForm.title);
-    formData.append("author", bookForm.author);
-    formData.append("category", bookForm.category);
-    formData.append("description", bookForm.description);
-    formData.append("price", bookForm.price);
-    formData.append("image", bookImage);
+      formData.append("title", bookForm.title);
+      formData.append("author", bookForm.author);
+      formData.append("category", bookForm.category);
+      formData.append("description", bookForm.description);
+      formData.append("price", bookForm.price);
+      formData.append("image", bookImage);
 
-    await api.post("/admin/books/create", formData);
+      await api.post("/admin/books/create", formData);
 
-    toast.success("Book added successfully");
+      toast.success("Book added successfully");
 
-    setShowBookModal(false);
+      setShowBookModal(false);
 
-    setBookForm({
-      ...initialBookForm,
-      category:
-        categories.length > 0
-          ? categories[0].name
-          : "",
-    });
+      setBookForm({
+        ...initialBookForm,
+        category:
+          categories.length > 0
+            ? categories[0].name
+            : "",
+      });
 
-    setBookImage(null);
+      setBookImage(null);
 
-    fetchBooks();
-    fetchDashboard();
-  } catch (error) {
-    toast.error(
-      error.response?.data?.message ||
-      "Failed to add book"
-    );
-  }
-};
+      fetchBooks();
+      fetchDashboard();
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+        "Failed to add book"
+      );
+    }
+  };
 
   const deleteBook = async (id) => {
     await api.delete(`/admin/books/${id}`);
@@ -218,7 +218,7 @@ const addBook = async () => {
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Failed to add category"
+        "Failed to add category"
       );
     }
   };
@@ -405,79 +405,89 @@ const addBook = async () => {
         {activeTab === "users" && (
           <div>
             <h2>Manage Users</h2>
+            <table className="user-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th style={{ textAlign: "center" }}>Email</th>
+                  <th style={{ textAlign: "center" }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user._id}>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      <button onClick={() => toggleUserStatus(user._id)}>
+                        {user.isActive ? "Block" : "Activate"}
+                      </button>
+                      <button className="delete-user" onClick={() => deleteUser(user._id)}>
+                        <img className="button-del-user" src="/images/delete.png" alt="" />
 
-            {users.map((user) => (
-              <div className="card" key={user._id}>
-                <h4>{user.name}</h4>
-                <p>{user.email}</p>
+                      </button>
+                    </td>
 
-                <button onClick={() => toggleUserStatus(user._id)}>
-                  {user.isActive ? "Block" : "Activate"}
-                </button>
-
-                <button onClick={() => deleteUser(user._id)}>
-                  Delete
-                </button>
-              </div>
-            ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
-{/* ================= CATEGORIES ================= */}
+        {/* ================= CATEGORIES ================= */}
 
-{activeTab === "categories" && (
+       {activeTab === "categories" && (
   <div>
     <h2>Manage Categories</h2>
 
-    <div
-      style={{
-        display: "flex",
-        gap: "10px",
-        marginBottom: "20px",
-      }}
-    >
+    {/* Add Category */}
+    <div className="category-form">
       <input
         type="text"
         className="form-control"
         placeholder="Category Name"
         value={categoryName}
-        onChange={(e) =>
-          setCategoryName(
-            e.target.value
-          )
-        }
+        onChange={(e) => setCategoryName(e.target.value)}
       />
 
-      <button
-        className="btn btn-success"
-        onClick={addCategory}
-      >
+      <button className="btn btn-success" onClick={addCategory}>
         Add
       </button>
     </div>
 
-    {categories.map((cat) => (
-      <div
-        className="card"
-        key={cat._id}
-      >
-        <h4>{cat.name}</h4>
+    {/* Table */}
+    <table className="category-table">
+      <thead>
+        <tr>
+          <th>Category Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
 
-        <button
-          className="btn btn-danger"
-          onClick={() =>
-            deleteCategory(cat._id)
-          }
-        >
-          Delete
-        </button>
-      </div>
-    ))}
+      <tbody>
+        {categories.map((cat) => (
+          <tr key={cat._id}>
+            <td>{cat.name}</td>
+
+            <td>
+              <button
+                className="delete-btn"
+                onClick={() => deleteCategory(cat._id)}
+              >
+                <img src="/images/delete.png" alt="delete" />
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 )}
         {/* ================= BOOKS ================= */}
         {activeTab === "books" && (
           <div>
             <h2>Manage Books</h2>
+
             <button
               className="btn btn-primary"
               onClick={() => setShowBookModal(true)}
@@ -485,18 +495,33 @@ const addBook = async () => {
               ➕ Add Book
             </button>
 
-            {books.map((book) => (
-              <div className="card" key={book._id}>
-                <h4>{book.title}</h4>
-                <p>{book.author}</p>
+            <table className="books-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
 
-                <button onClick={() => deleteBook(book._id)}>
-                  Delete
-                </button>
+              <tbody>
+                {books.map((book) => (
+                  <tr key={book._id}>
+                    <td>{book.title}</td>
+                    <td>{book.author}</td>
 
-              </div>
-            ))}
-
+                    <td>
+                      <button
+                        className="del-book-btn"
+                        onClick={() => deleteBook(book._id)}
+                      >
+                        <img src="/images/delete.png" alt="delete" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 
@@ -591,25 +616,25 @@ const addBook = async () => {
                 })
               }
             />
-<select
-  className="form-control mb-3"
-  value={bookForm.category}
-  onChange={(e) =>
-    setBookForm({
-      ...bookForm,
-      category: e.target.value,
-    })
-  }
->
-  {categories.map((cat) => (
-    <option
-      key={cat._id}
-      value={cat.name}
-    >
-      {cat.name}
-    </option>
-  ))}
-</select>
+            <select
+              className="form-control mb-3"
+              value={bookForm.category}
+              onChange={(e) =>
+                setBookForm({
+                  ...bookForm,
+                  category: e.target.value,
+                })
+              }
+            >
+              {categories.map((cat) => (
+                <option
+                  key={cat._id}
+                  value={cat.name}
+                >
+                  {cat.name}
+                </option>
+              ))}
+            </select>
 
             <textarea
               className="form-control mb-3"
