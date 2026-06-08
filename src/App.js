@@ -21,7 +21,7 @@ import BookDetails from "./Pages/Bookdetails/BookDetails.jsx";
 import Login from "./Pages/Login/Login.jsx";
 import SearchBooks from "./Pages/SearchBooks/SearchBooks.jsx";
 import AdminDashboard from "./Pages/Admin/AdminDashboard.jsx";
-
+import Checkout from "./Pages/Checkout/Checkout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -89,6 +89,7 @@ function App() {
             user ? <Cart /> : <Navigate to="/login" replace />
           }
         />
+        <Route path="/checkout/:bookId" element={<Checkout />} />
 
         <Route
           path="/orders"

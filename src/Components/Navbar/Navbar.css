@@ -1,152 +1,359 @@
-/* ================= NAVBAR ================= */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ================= CSS VARIABLES ================= */
+:root {
+  --nav-bg: #fefefe;
+  --nav-bg-blur: rgba(254, 254, 254, 0.92);
+  --ink: #1a1a1a;
+  --ink-soft: #444;
+  --ink-muted: #888;
+  --accent: #b5813a;
+  --accent-hover: #8f6220;
+  --accent-glow: rgba(181, 129, 58, 0.15);
+  --accent-pill: rgba(181, 129, 58, 0.08);
+  --border: #ebebeb;
+  --border-hover: #d0c8b8;
+  --surface: #f9f7f4;
+  --surface-hover: #f3f0eb;
+  --badge-bg: #c0392b;
+  --badge-text: #fff;
+  --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+  --shadow-nav: 0 1px 0 #ebebeb, 0 4px 24px rgba(0,0,0,0.04);
+}
+
+/* ================= NAVBAR BASE ================= */
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 25px;
-  background: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 0 40px;
+  height: 68px;
+  background: var(--nav-bg-blur);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 1000;
+  font-family: var(--font-body);
+  box-shadow: var(--shadow-nav);
 }
 
-/* ================= LEFT SECTION (LOGO + SEARCH) ================= */
+/* ================= LEFT SECTION ================= */
+
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
 }
 
-/* LOGO */
 .store-image {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .store-img {
-  width: 45px;
-  height: 45px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
+  transition: transform var(--transition);
 }
 
-/* TITLE */
+.store-img:hover {
+  transform: scale(1.05);
+}
+
+/* ================= BRAND TITLE ================= */
+
 .navbar-title {
   margin: 0;
-  font-size: 20px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .navbar-logo-link {
   text-decoration: none;
-  color: #111;
+  color: var(--ink);
+  background: linear-gradient(to right, var(--ink) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: opacity var(--transition);
 }
 
-/* SEARCH BAR */
+.navbar-logo-link:hover {
+  opacity: 0.8;
+}
+
+/* ================= VERTICAL DIVIDER ================= */
+
+.navbar-logo::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 22px;
+  background: var(--border);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* ================= SEARCH BAR ================= */
+
 .navbar-logo form {
   display: flex;
   align-items: center;
-  background: #f3f3f3;
-  padding: 6px 10px;
-  border-radius: 25px;
-  margin-left: 15px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0 6px 0 16px;
+  border-radius: 8px;
+  height: 38px;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  gap: 4px;
+}
+
+.navbar-logo form:focus-within {
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .searchbar {
   border: none;
   outline: none;
   background: transparent;
-  padding: 6px 10px;
-  width: 250px;
-  font-size: 14px;
+  padding: 0;
+  width: 220px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+.searchbar::placeholder {
+  color: var(--ink-muted);
+  font-size: 13px;
 }
 
 .navbar-logo form button {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  transition: background var(--transition);
+  flex-shrink: 0;
+  padding: 0;
 }
 
-/* ================= RIGHT SECTION ================= */
+.navbar-logo form button:hover {
+  background: var(--surface-hover);
+}
+
+.search-image {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.search-img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  transition: opacity var(--transition);
+}
+
+.navbar-logo form button:hover .search-img {
+  opacity: 0.85;
+}
+
+/* ================= RIGHT NAV LINKS ================= */
+
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 22px;
-  position: relative;
-  right: 30px;
+  gap: 4px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.search-image{
-  width: 20px;
-  height: 20px;
-  position: relative;
-  bottom: 9px;
+
+.navbar-links li {
+  display: flex;
+  align-items: center;
 }
-.search-img{
-  width: 100%;
-  height: 100%;
-}
-/* ICON ITEMS */
+
 .nav-item {
   display: flex;
   align-items: center;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  gap: 6px;
   text-decoration: none;
-  color: #111;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  letter-spacing: 0.01em;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: color var(--transition), background var(--transition);
+  white-space: nowrap;
+  position: relative;
 }
 
 .nav-item:hover {
-  transform: scale(1.1);
+  color: var(--ink);
+  background: var(--surface-hover);
 }
 
-/* ICON IMAGES */
+/* ================= NAV ICONS ================= */
+
 .cartlist-img {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
+  width: 20px;
+  height: 20px;
+  opacity: 0.65;
+  transition: opacity var(--transition), transform var(--transition);
+  display: block;
+}
+
+.nav-item:hover .cartlist-img {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+/* ================= NAV BADGE ================= */
+
+.nav-item-wrapper {
+  position: relative;
+}
+
+.nav-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-size: 9.5px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+  pointer-events: none;
+  border: 1.5px solid #fff;
+  letter-spacing: 0;
 }
 
 /* ================= USER BOX ================= */
-.user-box {
+
+.nav-item.user-box {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--accent-pill);
+  border: 1px solid rgba(181, 129, 58, 0.2);
+  border-radius: 8px;
+  transition: all var(--transition);
+}
+
+.nav-item.user-box:hover {
+  background: rgba(181, 129, 58, 0.14);
+  border-color: rgba(181, 129, 58, 0.35);
 }
 
 .user-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-hover);
+  font-family: var(--font-body);
+  letter-spacing: 0.01em;
 }
 
-/* LOGOUT BUTTON */
+/* ================= LOGOUT BUTTON ================= */
+
 .logout-btn {
-  padding: 5px 10px;
-  border: none;
-  background: #e74c3c;
-  color: white;
+  padding: 5px 12px;
+  border: 1px solid var(--border-hover);
+  background: #fff;
+  color: var(--ink-soft);
   font-size: 12px;
-  border-radius: 5px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  border-radius: 6px;
   cursor: pointer;
-  position: relative;
-  bottom: 5px;
-  transition: 0.2s ease;
+  letter-spacing: 0.01em;
+  transition: all var(--transition);
 }
 
 .logout-btn:hover {
-  background: #c0392b;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+/* ================= ADMIN LINK ================= */
+
+.navbar-links li a[href="/admin"] {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-pill);
+  border: 1px solid rgba(181, 129, 58, 0.22);
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all var(--transition);
+}
+
+.navbar-links li a[href="/admin"]:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
 
 /* ================= RESPONSIVE ================= */
-@media (max-width: 768px) {
+
+@media (max-width: 900px) {
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 0 20px;
+    height: auto;
+    min-height: 60px;
+    flex-wrap: wrap;
     gap: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .navbar-logo::after {
+    display: none;
+  }
+
+  .searchbar {
+    width: 150px;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    padding: 10px 16px;
   }
 
   .navbar-logo {
@@ -154,13 +361,23 @@
     gap: 10px;
   }
 
+  .navbar-title {
+    font-size: 20px;
+  }
+
+  .navbar-logo form {
+    width: 100%;
+    margin-left: 0;
+  }
+
   .searchbar {
-    width: 180px;
+    width: 100%;
   }
 
   .navbar-links {
     width: 100%;
-    justify-content: space-around;
+    justify-content: flex-end;
+    gap: 2px;
   }
 
   .user-name {

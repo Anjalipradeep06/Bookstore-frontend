@@ -5,7 +5,7 @@ export const fetchOrders = createAsyncThunk(
   "orders/fetch",
   async (_, thunkAPI) => {
     try {
-      const res = await api.get("/myorders");
+      const res = await api.get("/orders/myorders");
       return res.data.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(
@@ -20,7 +20,7 @@ export const createOrder = createAsyncThunk(
   async ({ bookId, shippingAddress }, thunkAPI) => {
     try {
       const res = await api.post(
-        `/create/${bookId}`,
+        `/orders/create/${bookId}`,
         { shippingAddress }
       );
 

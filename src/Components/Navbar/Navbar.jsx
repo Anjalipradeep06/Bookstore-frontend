@@ -16,8 +16,19 @@ const Navbar = () => {
 
   const user = useSelector((state) => state.auth.user);
 
+  // ================= REDUX STATE =================
+  const cartItems = useSelector((state) => state.cart.items);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const orderItems = useSelector((state) => state.orders.items);
+
   const isAdmin = user?.isAdmin;
 
+  // ================= COUNTS =================
+  const cartCount = cartItems?.length || 0;
+  const wishlistCount = wishlistItems?.length || 0;
+  const orderCount = orderItems?.length || 0;
+
+  // ================= SEARCH =================
   const handleSearch = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
@@ -25,11 +36,23 @@ const Navbar = () => {
     }
   };
 
+  // ================= LOGOUT =================
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("token");
     localStorage.removeItem("loggedInUser");
     navigate("/");
+  };
+
+  // ================= BADGE COMPONENT =================
+  const Badge = ({ count }) => {
+    if (!count) return null;
+
+    return (
+      <span className="nav-badge">
+        {count}
+      </span>
+    );
   };
 
   return (
@@ -71,7 +94,7 @@ const Navbar = () => {
         {/* NAV LINKS */}
         <ul className="navbar-links">
 
-          {/* ================= USER SECTION ================= */}
+          {/* ================= USER ================= */}
           <li>
             {user ? (
               <div className="nav-item user-box">
@@ -101,7 +124,7 @@ const Navbar = () => {
             )}
           </li>
 
-          {/* ================= ADMIN LINKS ================= */}
+          {/* ================= ADMIN ================= */}
           {user && isAdmin && (
             <li>
               <Link to="/admin" className="nav-item">
@@ -110,36 +133,42 @@ const Navbar = () => {
             </li>
           )}
 
-          {/* ================= USER ONLY LINKS ================= */}
+          {/* ================= USER FEATURES ================= */}
           {user && !isAdmin && (
             <>
-              <li>
+              {/* WISHLIST */}
+              <li className="nav-item-wrapper">
                 <Link to="/wishlist" className="nav-item">
                   <img
                     className="cartlist-img"
                     src="/images/heart.png"
                     alt="wishlist"
                   />
+                  <Badge count={wishlistCount} />
                 </Link>
               </li>
 
-              <li>
+              {/* CART */}
+              <li className="nav-item-wrapper">
                 <Link to="/cart" className="nav-item">
                   <img
                     className="cartlist-img"
                     src="/images/parcel.png"
                     alt="cart"
                   />
+                  <Badge count={cartCount} />
                 </Link>
               </li>
 
-              <li>
+              {/* ORDERS */}
+              <li className="nav-item-wrapper">
                 <Link to="/orders" className="nav-item">
                   <img
                     className="cartlist-img"
                     src="/images/check-out.png"
                     alt="orders"
                   />
+                  <Badge count={orderCount} />
                 </Link>
               </li>
             </>

@@ -1,93 +1,146 @@
-/* MAIN CONTAINER */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
 .book-details-container {
   max-width: 1100px;
+  padding: 48px 40px;
+  background: #f9f7f4;
+  min-height: calc(100vh - 68px);
+  font-family: 'Inter', sans-serif;
 }
 
-/* BACK BUTTON */
+/* ---------- Back Button ---------- */
+
 .back-arrow {
   display: inline-block;
-  font-size: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
+  color: #666;
+  font-size: 14px;
   cursor: pointer;
-  color: #333;
-  font-weight: 500;
-  transition: 0.2s;
+  transition: .2s;
 }
 
 .back-arrow:hover {
-  transform: translateX(-3px);
-  color: #000;
+  color: #b5813a;
 }
 
-/* IMAGE */
+/* ---------- Image ---------- */
+
 .book-detail-image {
   width: 100%;
-  border-radius: 12px;
+  max-width: 380px;
+  height: auto;
   object-fit: cover;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 10px 24px rgba(0,0,0,.05);
 }
 
-/* TEXT */
+/* ---------- Details ---------- */
+
+.book-info {
+  padding-left: 40px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .book-title {
-  font-weight: 700;
-  margin-bottom: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
 }
 
 .book-author {
-  color: #666;
-  margin-bottom: 10px;
+  font-size: 15px;
+  color: #888;
+  margin-bottom: 20px;
 }
 
 .book-price {
-  font-size: 22px;
-  font-weight: 700;
-  color: #198754;
-  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 600;
+  color: #b5813a;
+  margin-bottom: 24px;
 }
 
 .book-description {
-  line-height: 1.6;
-  color: #444;
-  margin-top: 15px;
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  padding: 20px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 30px;
 }
 
-/* BUTTONS */
+/* ---------- Buttons ---------- */
+
 .action-buttons {
   display: flex;
-  gap: 15px;
-  margin-top: 25px;
+  gap: 12px;
 }
 
-/* BUTTON HOVER */
-.btn-dark {
-  padding: 10px 20px;
-  border-radius: 8px;
-  transition: 0.2s;
-}
-
-.btn-dark:hover {
-  transform: scale(1.05);
-}
-
-.btn-outline-danger {
-  padding: 10px 20px;
-  border-radius: 8px;
-  transition: 0.2s;
-}
-
-.btn-outline-danger:hover {
-  transform: scale(1.05);
-  background: #dc3545;
+.action-buttons .btn-dark,
+.action-buttons button.btn-dark {
+  background: #b5813a;
+  border: none;
   color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  transition: .25s;
 }
 
-/* MOBILE */
+.action-buttons .btn-dark:hover {
+  background: #8f6220;
+}
+
+.action-buttons .btn-outline-danger,
+.action-buttons button.btn-outline-danger {
+  width: 50px;
+  border: 1px solid #d0c8b8;
+  background: transparent;
+  color: #666;
+  border-radius: 8px;
+  transition: .25s;
+}
+
+.action-buttons .btn-outline-danger:hover {
+  background: #f3f0eb;
+  color: #b5813a;
+  border-color: #b5813a;
+}
+
+/* ---------- Mobile ---------- */
+
 @media (max-width: 768px) {
-  .action-buttons {
-    flex-direction: column;
+  .book-details-container {
+    padding: 24px 18px;
   }
 
-  .col-md-5 {
-    margin-bottom: 20px;
+  .book-info {
+    padding-left: 0 !important;
+    margin-top: 24px;
+  }
+
+  .book-title {
+    font-size: 32px;
+  }
+
+  .book-price {
+    font-size: 24px;
+  }
+
+  .action-buttons {
+    flex-direction: row;
+  }
+
+  .action-buttons .btn-dark {
+    flex: 1;
   }
 }

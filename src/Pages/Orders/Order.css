@@ -1,69 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
 .orders-container {
-  padding: 40px;
-  min-height: 80vh;
+  padding: 48px 40px;
+  background: #f9f7f4;
+  min-height: calc(100vh - 68px);
+  font-family: 'Inter', sans-serif;
 }
 
+/* ---------- TITLE ---------- */
+
 .orders-container h1 {
-  margin-bottom: 30px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 36px;
+  position: relative;
+  padding-bottom: 14px;
 }
+
+.orders-container h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 55px;
+  height: 2px;
+  background: #b5813a;
+}
+
+/* ---------- LOADING ---------- */
+
+.orders-container h2 {
+  text-align: center;
+  margin-top: 80px;
+  color: #777;
+  font-weight: 400;
+}
+
+/* ---------- EMPTY ---------- */
 
 .empty-orders {
   text-align: center;
-  padding: 80px 20px;
+  margin-top: 80px;
 }
+
+.empty-orders h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.empty-orders p {
+  color: #777;
+  font-size: 15px;
+}
+
+/* ---------- GRID ---------- */
 
 .orders-grid {
   display: grid;
   gap: 20px;
 }
 
+/* ---------- CARD ---------- */
+
 .order-card {
   display: flex;
-  gap: 20px;
+  gap: 22px;
   padding: 20px;
-  background: white;
+  background: #fff;
+  border: 1px solid #ebebeb;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+  transition: .25s;
 }
 
+.order-card:hover {
+  transform: translateY(-2px);
+  border-color: #d0c8b8;
+  box-shadow: 0 10px 24px rgba(0,0,0,.05);
+}
+
+/* ---------- IMAGE ---------- */
+
 .order-image {
-  width: 150px;
-  height: 220px;
+  width: 140px;
+  height: 190px;
   object-fit: cover;
   border-radius: 8px;
+  border: 1px solid #ebebeb;
+  flex-shrink: 0;
 }
+
+/* ---------- CONTENT ---------- */
 
 .order-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.address-box {
-  margin-top: 15px;
-  padding: 10px;
-  background: #f7f7f7;
-  border-radius: 8px;
+.order-content h4 {
+  margin: 0 0 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
 }
+
+.order-content p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.order-content strong {
+  color: #1a1a1a;
+}
+
+/* ---------- STATUS ---------- */
 
 .status-badge {
   display: inline-block;
-  margin-top: 10px;
+  width: fit-content;
+  margin-top: 14px;
+  margin-bottom: 16px;
   padding: 6px 14px;
   border-radius: 20px;
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 
 .pending {
-  background: #fff3cd;
+  background: rgba(181,129,58,.12);
+  color: #b5813a;
+  border: 1px solid rgba(181,129,58,.2);
 }
 
 .shipped {
-  background: #cfe2ff;
+  background: rgba(90,140,220,.12);
+  color: #5d86d6;
+  border: 1px solid rgba(90,140,220,.2);
 }
 
 .delivered {
-  background: #d1e7dd;
+  background: rgba(60,180,120,.12);
+  color: #3fa56d;
+  border: 1px solid rgba(60,180,120,.2);
 }
 
 .cancelled {
-  background: #f8d7da;
+  background: rgba(220,80,80,.10);
+  color: #d9534f;
+  border: 1px solid rgba(220,80,80,.18);
+}
+
+/* ---------- ADDRESS ---------- */
+
+.address-box {
+  margin-top: auto;
+  padding: 14px;
+  background: #f9f7f4;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+}
+
+.address-box strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  font-size: 13px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.address-box p {
+  margin: 2px 0;
+  color: #777;
+  font-size: 13px;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 24px 18px;
+  }
+
+  .orders-container h1 {
+    font-size: 32px;
+  }
+
+  .order-card {
+    flex-direction: column;
+  }
+
+  .order-image {
+    width: 100%;
+    height: 260px;
+  }
 }

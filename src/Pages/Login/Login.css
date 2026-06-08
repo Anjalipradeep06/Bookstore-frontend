@@ -1,181 +1,255 @@
-.login-container {
-  display: flex;
-  min-height: 550px;
-  border-radius: 12px;
-  overflow: hidden;
-  font-family: "Segoe UI", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+:root{
+  --ink:#1a1a1a;
+  --ink-soft:#444;
+  --ink-muted:#888;
+
+  --surface:#ffffff;
+  --cream:#f9f7f4;
+
+  --border:#ebebeb;
+  --border-hover:#d0c8b8;
+
+  --accent:#b5813a;
+  --accent-hover:#8f6220;
+  --accent-light:rgba(181,129,58,.08);
+
+  --radius:12px;
+  --transition:.25s ease;
+
+  --font-display:'Cormorant Garamond',serif;
+  --font-body:'Inter',sans-serif;
 }
 
-/* ================= LEFT SECTION ================= */
-.login-left {
-  width: 50%;
-  background: linear-gradient(135deg, #f8f3e7, #fff7e0);
-  padding: 50px 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* Bootstrap Modal */
+
+.modal-content{
+  border:none;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.15);
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 40px;
+/* ===========================
+   CONTAINER
+=========================== */
+
+.login-container{
+  display:flex;
+  min-height:560px;
+  background:#fff;
+  font-family:var(--font-body);
 }
 
-/* FIXED BRAND LOGO (you were using image inside earlier) */
-.brand-logo img {
-  width: 100%;
-  height: 100%;
+/* ===========================
+   LEFT
+=========================== */
+
+.login-left{
+  width:50%;
+  background:var(--cream);
+  padding:55px 45px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-right:1px solid var(--border);
 }
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:45px;
+}
+
 .brand-logo{
-width: 45px;
-  height: 45px;
-  object-fit: cover;
+  width:48px;
+  height:48px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid var(--border);
 }
 
-.brand h4 {
-  margin: 0;
-  font-weight: 700;
-  font-size: 20px;
+.brand-logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-.login-left h1 {
-  font-size: 44px;
-  font-weight: 800;
-  margin-bottom: 10px;
-  color: #222;
+.brand h4{
+  margin:0;
+  font-family:var(--font-display);
+  font-size:28px;
+  font-weight:600;
+  color:var(--ink);
 }
 
-.login-left h2 {
-  font-size: 26px;
-  line-height: 1.4;
-  margin-bottom: 40px;
-  color: #444;
+.login-left h1{
+  font-family:var(--font-display);
+  font-size:48px;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:12px;
 }
 
-/* removed unused span styling issues */
-.feature {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-  color: #555;
-  font-size: 15px;
+.login-left h2{
+  font-size:18px;
+  font-weight:400;
+  color:var(--ink-soft);
+  line-height:1.7;
+  margin:0;
 }
 
-/* ================= RIGHT SECTION ================= */
-.login-right {
-  width: 50%;
-  padding: 50px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #ffffff;
+/* ===========================
+   RIGHT
+=========================== */
+
+.login-right{
+  width:50%;
+  padding:55px 45px;
+  background:#fff;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
-.login-right h2 {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  color: #222;
+.login-right h2{
+  font-family:var(--font-display);
+  font-size:34px;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:28px;
 }
 
-/* inputs (works with plain input OR bootstrap) */
-.login-right input {
-  width: 100%;
-  height: 48px;
-  margin-bottom: 15px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  outline: none;
-  transition: 0.2s;
-  font-size: 14px;
+/* Inputs */
+
+.login-right input{
+  width:100%;
+  height:50px;
+  padding:0 16px;
+  margin-bottom:16px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fafafa;
+  font-size:14px;
+  color:var(--ink);
+  outline:none;
+  transition:var(--transition);
 }
 
-.login-right input:focus {
-  border-color: #111;
+.login-right input:focus{
+  background:#fff;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(181,129,58,.12);
 }
 
-/* BUTTON */
-.login-btn {
-  width: 100%;
-  height: 48px;
-  border: none;
-  border-radius: 8px;
-  background: #111;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
+/* Button */
+
+.login-btn{
+  width:100%;
+  height:50px;
+  margin-top:8px;
+  border:none;
+  border-radius:8px;
+  background:var(--ink);
+  color:#fff;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.03em;
+  transition:var(--transition);
 }
 
-.login-right button:hover {
-  background: #333;
+.login-btn:hover{
+  background:var(--accent-hover);
 }
 
-.login-right button:disabled {
-  background: #888;
-  cursor: not-allowed;
+.login-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
 
-/* CLOSE BUTTON */
-.close-button {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 10;
+/* Toggle */
+
+.login-right p{
+  margin-top:20px;
+  text-align:center;
+  color:var(--accent);
+  font-size:14px;
+  cursor:pointer;
+  transition:var(--transition);
 }
 
-.close-btn {
-  width: 34px;
-  color: black;
-  background-color: white;
-  border: none;
-  background: transparent;
-  font-size: 26px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-  transition: 0.2s ease;
+.login-right p:hover{
+  color:var(--accent-hover);
 }
 
-.close-btn:hover {
-  transform: scale(1.15);
+/* Close */
+
+.close-button{
+  position:absolute;
+  top:18px;
+  right:18px;
 }
 
-/* SWITCH TEXT */
-.login-right p {
-  text-align: center;
-  margin-top: 18px;
-  color: #666;
-  cursor: pointer;
+.close-btn{
+  width:36px;
+  height:36px;
+  border:none;
+  border-radius:50%;
+  background:transparent;
+  color:var(--ink-muted);
+  font-size:22px;
+  cursor:pointer;
+  transition:var(--transition);
 }
 
-.login-right p:hover {
-  color: #111;
+.close-btn:hover{
+  background:var(--cream);
+  color:var(--ink);
 }
 
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  .login-container {
-    flex-direction: column;
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+  .login-container{
+    flex-direction:column;
+    min-height:auto;
   }
 
   .login-left,
-  .login-right {
-    width: 100%;
-    padding: 25px;
+  .login-right{
+    width:100%;
+    padding:30px 25px;
   }
 
-  .login-left h1 {
-    font-size: 32px;
+  .login-left{
+    border-right:none;
+    border-bottom:1px solid var(--border);
   }
 
-  .login-left h2 {
-    font-size: 20px;
+  .brand{
+    margin-bottom:25px;
+  }
+
+  .brand h4{
+    font-size:24px;
+  }
+
+  .login-left h1{
+    font-size:36px;
+  }
+
+  .login-left h2{
+    font-size:16px;
+  }
+
+  .login-right h2{
+    font-size:30px;
   }
 }

@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+.checkout-container {
+  max-width: 540px;
+  margin: 60px auto;
+  padding: 36px;
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.05);
+  font-family: 'Inter', sans-serif;
+}
+
+.checkout-container h2 {
+  margin: 0 0 30px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: #1a1a1a;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.checkout-container h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 55px;
+  height: 2px;
+  background: #b5813a;
+}
+
+.checkout-container input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  margin-bottom: 14px;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  background: #f9f7f4;
+  font-size: 14px;
+  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+  transition: .2s;
+}
+
+.checkout-container input::placeholder {
+  color: #888;
+}
+
+.checkout-container input:focus {
+  outline: none;
+  border-color: #b5813a;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(181,129,58,.12);
+}
+
+.checkout-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  background: #b5813a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.checkout-btn:hover {
+  background: #8f6220;
+}
+
+@media (max-width: 768px) {
+  .checkout-container {
+    margin: 24px 16px;
+    padding: 24px;
+  }
+
+  .checkout-container h2 {
+    font-size: 32px;
+  }
+}

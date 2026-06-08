@@ -2,45 +2,34 @@ import React, { useEffect } from "react";
 import "./Cart.css";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCart,
-  removeFromCart,
-} from "../../redux/thunks/cartThunk";
+import { fetchCart, removeFromCart } from "../../redux/thunks/cartThunk";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { items, loading } = useSelector(
-    (state) => state.cart
-  );
+  const { items, loading } = useSelector((state) => state.cart);
 
-  // ================= FETCH CART =================
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  // ================= REMOVE =================
-  const handleRemove = (id) => {
-    dispatch(removeFromCart(id));
+  const handleRemove = (bookId) => {
+    if (!bookId) return;
+    dispatch(removeFromCart(bookId));
   };
 
-  // ================= TOTAL =================
-  const total = items.reduce(
-    (sum, item) => sum + item.price,
-    0
-  );
+  const total = items.reduce((sum, item) => {
+    if (!item) return sum;
+    return sum + (item.price || 0) * (item.quantity || 1);
+  }, 0);
 
-  if (loading) {
-    return (
-      <h2 className="text-center mt-5">
-        Loading Cart...
-      </h2>
-    );
-  }
+  if (loading) return <h2>Loading...</h2>;
 
   return (
     <div className="cart-container">
-      <h1>My Cart 🛒</h1>
+      <h1>My Cart</h1>
 
       {items.length === 0 ? (
         <div className="empty-cart">
@@ -49,41 +38,54 @@ const Cart = () => {
       ) : (
         <>
           <div className="cart-grid">
+            {items
+              .filter((item) => item && item.bookId)
+              .map((book) => (
+                <div className="cart-card" key={book.bookId}>
+                  <img
+                    src={book.images?.[0]}
+                    alt={book.title}
+                    className="cart-image"
+                  />
 
-            {items.map((book) => (
-              <div
-                className="cart-card"
-                key={book._id}
-              >
-                <img
-                  src={book.images?.[0]}
-                  alt={book.title}
-                  className="cart-image"
-                />
+                  <div className="cart-content">
+                    <h4>{book.title}</h4>
 
-                <div className="cart-content">
-                  <h4>{book.title}</h4>
-                  <p>{book.author}</p>
-                  <h5>₹{book.price}</h5>
+                    <p>{book.author}</p>
 
-                  <button
-                    className="btn btn-danger"
-                    onClick={() =>
-                      handleRemove(book._id)
-                    }
-                  >
-                    Remove
-                  </button>
+                    <div className="cart-price">
+                      ₹{book.price}
+                    </div>
+
+                    <div className="cart-actions">
+                      <button
+                        className="cart-btn-remove"
+                        onClick={() => handleRemove(book.bookId)}
+                      >
+                        Remove
+                      </button>
+
+                      <button
+                        className="cart-checkout-btn"
+                        onClick={() =>
+                          navigate(`/checkout/${book.bookId}`)
+                        }
+                      >
+                        Checkout
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-
+              ))}
           </div>
 
           <div className="cart-summary">
-            <h3>Total: ₹{total}</h3>
+            <h3>Total</h3>
+            <div className="cart-total">
+              ₹{total}
+            </div>
 
-            <button className="btn btn-success">
+            <button className="cart-summary-btn">
               Proceed to Checkout
             </button>
           </div>

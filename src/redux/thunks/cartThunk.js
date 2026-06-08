@@ -9,41 +9,33 @@ export const fetchCart = createAsyncThunk(
       const res = await api.get("/cartlist/cart");
       return res.data.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err.response?.data?.message
-      );
+      return thunkAPI.rejectWithValue(err.message);
     }
   }
 );
 
-// ADD TO CART
+// ADD CART
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (bookId, thunkAPI) => {
     try {
-      const res = await api.post("/cartlist/cart/add", {
-        bookId,
-      });
+      const res = await api.post("/cartlist/cart/add", { bookId });
       return res.data.addedItem;
     } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err.response?.data?.message
-      );
+      return thunkAPI.rejectWithValue(err.message);
     }
   }
 );
 
-// REMOVE FROM CART
+// REMOVE CART (FIXED)
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
   async (bookId, thunkAPI) => {
     try {
-      await api.delete(`/cart/remove/${bookId}`);
+      await api.delete(`/cartlist/cart/remove/${bookId}`);
       return bookId;
     } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err.response?.data?.message
-      );
+      return thunkAPI.rejectWithValue(err.message);
     }
   }
 );
