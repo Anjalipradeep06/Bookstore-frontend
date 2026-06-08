@@ -1,0 +1,181 @@
+.login-container {
+  display: flex;
+  min-height: 550px;
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ================= LEFT SECTION ================= */
+.login-left {
+  width: 50%;
+  background: linear-gradient(135deg, #f8f3e7, #fff7e0);
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+/* FIXED BRAND LOGO (you were using image inside earlier) */
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+}
+.brand-logo{
+width: 45px;
+  height: 45px;
+  object-fit: cover;
+}
+
+.brand h4 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.login-left h1 {
+  font-size: 44px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.login-left h2 {
+  font-size: 26px;
+  line-height: 1.4;
+  margin-bottom: 40px;
+  color: #444;
+}
+
+/* removed unused span styling issues */
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: #555;
+  font-size: 15px;
+}
+
+/* ================= RIGHT SECTION ================= */
+.login-right {
+  width: 50%;
+  padding: 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.login-right h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #222;
+}
+
+/* inputs (works with plain input OR bootstrap) */
+.login-right input {
+  width: 100%;
+  height: 48px;
+  margin-bottom: 15px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.login-right input:focus {
+  border-color: #111;
+}
+
+/* BUTTON */
+.login-btn {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  background: #111;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.login-right button:hover {
+  background: #333;
+}
+
+.login-right button:disabled {
+  background: #888;
+  cursor: not-allowed;
+}
+
+/* CLOSE BUTTON */
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+
+.close-btn {
+  width: 34px;
+  color: black;
+  background-color: white;
+  border: none;
+  background: transparent;
+  font-size: 26px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: 0.2s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.15);
+}
+
+/* SWITCH TEXT */
+.login-right p {
+  text-align: center;
+  margin-top: 18px;
+  color: #666;
+  cursor: pointer;
+}
+
+.login-right p:hover {
+  color: #111;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .login-left,
+  .login-right {
+    width: 100%;
+    padding: 25px;
+  }
+
+  .login-left h1 {
+    font-size: 32px;
+  }
+
+  .login-left h2 {
+    font-size: 20px;
+  }
+}
