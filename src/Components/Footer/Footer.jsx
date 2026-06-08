@@ -42,10 +42,10 @@ function Footer() {
         <div className="footer-section">
           <h4>Support</h4>
           <ul>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-            <li><a href="#">Contact Us</a></li>
+            <li><a href="/">Help Center</a></li>
+            <li><a href="/">Privacy Policy</a></li>
+            <li><a href="/">Terms & Conditions</a></li>
+            <li><a href="/">Contact Us</a></li>
           </ul>
         </div>
 
