@@ -19,11 +19,12 @@ export const addToWishlist = createAsyncThunk(
   "wishlist/add",
   async (bookId, thunkAPI) => {
     try {
-      const res = await api.post("/cartlist/addlist", {
-        bookId,
-      });
+     const response = await api.post("/cartlist/addlist", {
+  bookId,
+});
 
-      return res.data; // return backend response
+return response.data;
+
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.response?.data?.message || "Something went wrong"

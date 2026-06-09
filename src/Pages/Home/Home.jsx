@@ -20,23 +20,22 @@ function Home() {
   const dispatch = useDispatch();
 
   // fetch data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const bannerRes = await api.get("/products/banners");
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const bannerRes = await api.get("/products/banners");
+      const bookRes = await api.get(`/products?page=${page}&limit=8`);
 
-        const bookRes = await api.get(`/products?page=${page}&limit=8`);
+      setBanners(bannerRes.data.data || []);
+      setBooks(bookRes.data.data || []);
+      setTotalPages(bookRes.data.totalPages || 1);
+    } catch {
+      toast.error("Failed to load data");
+    }
+  };
 
-        setBanners(bannerRes.data.data || []);
-        setBooks(bookRes.data.data || []);
-        setTotalPages(bookRes.data.totalPages || 1);
-      } catch (error) {
-        toast.error("Failed to load data");
-      }
-    };
-
-    fetchData();
-  }, [page]);
+  fetchData();
+}, [page]);
 
   // ================= WISHLIST (REDUX) =================
  const handleAddToWishlist = (id) => {

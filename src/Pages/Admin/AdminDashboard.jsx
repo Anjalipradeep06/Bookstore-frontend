@@ -322,15 +322,14 @@ function AdminDashboard() {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    if (categories.length > 0) {
-      setBookForm((prev) => {
-        if (prev.category) return prev;
-        return { ...prev, category: categories[0].name };
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categories]);
+useEffect(() => {
+  if (categories.length > 0 && !bookForm.category) {
+    setBookForm((prev) => ({
+      ...prev,
+      category: categories[0].name,
+    }));
+  }
+}, [categories, bookForm.category]);
 
   // ================= TAB CHANGE =================
 
