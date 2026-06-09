@@ -39,16 +39,20 @@ function Home() {
   }, [page]);
 
   // ================= WISHLIST (REDUX) =================
-  const handleAddToWishlist = (id) => {
-    dispatch(addToWishlist(id))
-      .unwrap()
-      .then(() => {
-        toast.success("Added to wishlist ❤️");
-      })
-      .catch((err) => {
-        toast.error(err || "Failed to add wishlist");
-      });
-  };
+ const handleAddToWishlist = (id) => {
+  dispatch(addToWishlist(id))
+    .unwrap()
+    .then((res) => {
+      if (res.message === "Already in wishlist") {
+        toast.info(res.message);
+      } else {
+        toast.success(res.message);
+      }
+    })
+    .catch((err) => {
+      toast.error(err);
+    });
+};
 
   const categories = [
     "Fiction",

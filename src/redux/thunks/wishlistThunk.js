@@ -22,10 +22,11 @@ export const addToWishlist = createAsyncThunk(
       const res = await api.post("/cartlist/addlist", {
         bookId,
       });
-      return bookId;
+
+      return res.data; // return backend response
     } catch (err) {
       return thunkAPI.rejectWithValue(
-        err.response?.data?.message
+        err.response?.data?.message || "Something went wrong"
       );
     }
   }

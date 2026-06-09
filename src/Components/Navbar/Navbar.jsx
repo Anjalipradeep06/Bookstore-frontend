@@ -4,7 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/authSlice";
-
+import { useEffect } from "react";
+import { fetchCart } from "../../redux/thunks/cartThunk";
+import { fetchWishlist } from "../../redux/thunks/wishlistThunk";
 import Login from "../../Pages/Login/Login";
 
 const Navbar = () => {
@@ -27,7 +29,12 @@ const Navbar = () => {
   const cartCount = cartItems?.length || 0;
   const wishlistCount = wishlistItems?.length || 0;
   const orderCount = orderItems?.length || 0;
-
+useEffect(() => {
+  if (user) {
+    dispatch(fetchCart());
+    dispatch(fetchWishlist());
+  }
+}, [dispatch, user]);
   // ================= SEARCH =================
   const handleSearch = (e) => {
     e.preventDefault();

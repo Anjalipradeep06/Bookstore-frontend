@@ -246,7 +246,7 @@ body{
 .new-arrivals-slider {
   display: flex;
   gap: 18px;
-  overflow-x: auto;
+  overflow-x: hidden;
   padding-bottom: 12px;
   scroll-behavior: smooth;
 }
@@ -266,7 +266,7 @@ body{
   background: white;
   border: 1px solid var(--border);
   border-radius: 14px;
-  overflow: hidden;
+  overflow-x: hidden;
   cursor: pointer;
   transition: .25s;
   flex-shrink: 0;
@@ -397,6 +397,7 @@ body{
 
 .arrival-slider::-webkit-scrollbar {
   height: 8px;
+  display: none;
 }
 
 .arrival-slider::-webkit-scrollbar-thumb {

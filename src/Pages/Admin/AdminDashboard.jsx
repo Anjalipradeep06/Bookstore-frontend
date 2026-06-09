@@ -44,6 +44,8 @@ function AdminDashboard() {
 
   const [showBookModal, setShowBookModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [editBookId, setEditBookId] = useState(null);
 
   const [categoryName, setCategoryName] = useState("");
@@ -54,6 +56,11 @@ function AdminDashboard() {
   const [bookImage, setBookImage] = useState(null);
   const [editBookImage, setEditBookImage] = useState(null);
   const [bannerFile, setBannerFile] = useState(null);
+
+  // ================= PAGINATION STATE =================
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const booksPerPage = 10;
 
   // ================= DASHBOARD =================
 
@@ -87,29 +94,36 @@ function AdminDashboard() {
     }
   };
 
-  const deleteUser = async (id) => {
-    try {
-      await api.delete(`/admin/users/${id}`);
-      toast.success("User deleted");
-      fetchUsers();
-    } catch {
-      toast.error("Failed to delete user");
-    }
-  };
+  // const deleteUser = async (id) => {
+  //   try {
+  //     await api.delete(`/admin/users/${id}`);
+  //     toast.success("User deleted");
+  //     fetchUsers();
+  //   } catch {
+  //     toast.error("Failed to delete user");
+  //   }
+  // };
 
   // ================= BOOKS =================
 
-  const fetchBooks = async () => {
+  const fetchBooks = async (pageNum = 1) => {
     try {
-      const res = await api.get("/admin/books");
+      const res = await api.get(`/admin/books?page=${pageNum}&limit=${booksPerPage}`);
       setBooks(res.data.data);
+      setTotalPages(res.data.totalPages);
     } catch {
       toast.error("Failed to load books");
     }
   };
 
+  useEffect(() => {
+    if (activeTab === "books") {
+      fetchBooks(page);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, activeTab]);
+
   const addBook = async () => {
-    // Validate required fields
     if (!bookForm.title || !bookForm.author || !bookForm.price) {
       toast.error("Please fill in all required fields");
       return;
@@ -132,17 +146,14 @@ function AdminDashboard() {
       await api.post("/admin/books/create", formData);
 
       toast.success("Book added successfully");
-
       setShowBookModal(false);
-
       setBookForm({
         ...initialBookForm,
         category: categories.length > 0 ? categories[0].name : "",
       });
-
       setBookImage(null);
-
-      fetchBooks();
+      setPage(1);
+      fetchBooks(1);
       fetchDashboard();
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to add book");
@@ -183,12 +194,10 @@ function AdminDashboard() {
       await api.put(`/admin/books/${editBookId}`, formData);
 
       toast.success("Book updated successfully");
-
       setShowEditModal(false);
       setEditBookId(null);
       setEditBookImage(null);
-
-      fetchBooks();
+      fetchBooks(page);
       fetchDashboard();
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to update book");
@@ -199,8 +208,10 @@ function AdminDashboard() {
     try {
       await api.delete(`/admin/books/${id}`);
       toast.success("Book deleted");
-      fetchBooks();
       fetchDashboard();
+      const newPage = books.length === 1 && page > 1 ? page - 1 : page;
+      setPage(newPage);
+      fetchBooks(newPage);
     } catch {
       toast.error("Failed to delete book");
     }
@@ -248,13 +259,9 @@ function AdminDashboard() {
     try {
       const formData = new FormData();
       formData.append("image", bannerFile);
-
       await api.post("/admin/banners/create", formData);
-
       toast.success("Banner added");
-
       setBannerFile(null);
-
       fetchBanners();
     } catch {
       toast.error("Failed to add banner");
@@ -315,25 +322,28 @@ function AdminDashboard() {
     fetchCategories();
   }, []);
 
-  // SET DEFAULT CATEGORY — single useEffect, functional updater avoids stale closure
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (categories.length > 0) {
       setBookForm((prev) => {
-        if (prev.category) return prev; // don't overwrite user's selection
+        if (prev.category) return prev;
         return { ...prev, category: categories[0].name };
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);
 
   // ================= TAB CHANGE =================
 
   useEffect(() => {
     if (activeTab === "users") fetchUsers();
-    if (activeTab === "books") fetchBooks();
+    if (activeTab === "books") {
+      setPage(1);
+      fetchBooks(1);
+    }
     if (activeTab === "orders") fetchOrders();
     if (activeTab === "banners") fetchBanners();
     if (activeTab === "categories") fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
   // ================= CHART DATA =================
@@ -378,6 +388,12 @@ function AdminDashboard() {
     ],
   };
 
+  // ================= HELPERS =================
+
+  const getStatusBadge = (status) => (
+    <span className={`order-status-badge ${status}`}>{status}</span>
+  );
+
   // ================= RENDER =================
 
   return (
@@ -386,12 +402,42 @@ function AdminDashboard() {
       {/* ================= SIDEBAR ================= */}
       <div className="sidebar">
         <h2>BookVerse Admin</h2>
-        <button onClick={() => setActiveTab("dashboard")}>📊 Dashboard</button>
-        <button onClick={() => setActiveTab("users")}>👤 Manage Users</button>
-        <button onClick={() => setActiveTab("books")}>📚 Manage Books</button>
-        <button onClick={() => setActiveTab("categories")}>🏷 Manage Categories</button>
-        <button onClick={() => setActiveTab("orders")}>🛒 Manage Orders</button>
-        <button onClick={() => setActiveTab("banners")}>🖼 Manage Banners</button>
+        <button
+          className={activeTab === "dashboard" ? "active" : ""}
+          onClick={() => setActiveTab("dashboard")}
+        >
+          📊 Dashboard
+        </button>
+        <button
+          className={activeTab === "users" ? "active" : ""}
+          onClick={() => setActiveTab("users")}
+        >
+          👤 Manage Users
+        </button>
+        <button
+          className={activeTab === "books" ? "active" : ""}
+          onClick={() => setActiveTab("books")}
+        >
+          📚 Manage Books
+        </button>
+        <button
+          className={activeTab === "categories" ? "active" : ""}
+          onClick={() => setActiveTab("categories")}
+        >
+          🏷 Manage Categories
+        </button>
+        <button
+          className={activeTab === "orders" ? "active" : ""}
+          onClick={() => setActiveTab("orders")}
+        >
+          🛒 Manage Orders
+        </button>
+        <button
+          className={activeTab === "banners" ? "active" : ""}
+          onClick={() => setActiveTab("banners")}
+        >
+          🖼 Manage Banners
+        </button>
       </div>
 
       {/* ================= MAIN ================= */}
@@ -401,14 +447,12 @@ function AdminDashboard() {
         {activeTab === "dashboard" && (
           <>
             <h1>Dashboard</h1>
-
             <div className="cards">
               <div className="card">Books<br />{data.totalBooks}</div>
               <div className="card">Users<br />{data.totalUsers}</div>
               <div className="card">Orders<br />{data.totalOrders}</div>
               <div className="card">Revenue<br />₹{data.totalRevenue}</div>
             </div>
-
             <div className="charts-grid">
               <div className="chart-card">
                 <h3>Books vs Users</h3>
@@ -435,8 +479,8 @@ function AdminDashboard() {
                 <tr>
                   <th>ID</th>
                   <th>Name</th>
-                  <th >Email</th>
-                  <th >Actions</th>
+                  <th>Email</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -449,12 +493,12 @@ function AdminDashboard() {
                       <button onClick={() => toggleUserStatus(user._id)}>
                         {user.isActive ? "Block" : "Activate"}
                       </button>
-                      <button
+                      {/* <button
                         className="delete-user"
                         onClick={() => deleteUser(user._id)}
                       >
                         <img className="button-del-user" src="/images/delete.png" alt="delete" />
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}
@@ -467,7 +511,6 @@ function AdminDashboard() {
         {activeTab === "categories" && (
           <div>
             <h2>Manage Categories</h2>
-
             <div className="category-form">
               <input
                 type="text"
@@ -480,7 +523,6 @@ function AdminDashboard() {
                 Add
               </button>
             </div>
-
             <table className="category-table">
               <thead>
                 <tr>
@@ -511,14 +553,12 @@ function AdminDashboard() {
         {activeTab === "books" && (
           <div>
             <h2>Manage Books</h2>
-
             <button
               className="btn btn-primary"
               onClick={() => setShowBookModal(true)}
             >
               ➕ Add Book
             </button>
-
             <table className="books-table">
               <thead>
                 <tr>
@@ -558,6 +598,23 @@ function AdminDashboard() {
                 ))}
               </tbody>
             </table>
+
+            {/* ================= PAGINATION ================= */}
+            <div className="pagination">
+              <button
+                disabled={page === 1}
+                onClick={() => setPage((prev) => prev - 1)}
+              >
+                Prev
+              </button>
+              <span>Page {page} of {totalPages}</span>
+              <button
+                disabled={page >= totalPages}
+                onClick={() => setPage((prev) => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
 
@@ -565,22 +622,51 @@ function AdminDashboard() {
         {activeTab === "orders" && (
           <div>
             <h2>Manage Orders</h2>
-            {orders.map((order) => (
-              <div className="card" key={order._id}>
-                <p>User: {order.userId?.name}</p>
-                <p>Book: {order.bookId?.title}</p>
-                <p>Status: {order.status}</p>
-                <select
-                  value={order.status}
-                  onChange={(e) => updateOrderStatus(order._id, e.target.value)}
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Delivered">Delivered</option>
-                  <option value="Cancelled">Cancelled</option>
-                </select>
-              </div>
-            ))}
+            <table className="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>User</th>
+                  <th>Book</th>
+                  <th>Status</th>
+                  <th>Update Status</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr key={order._id}>
+                    <td className="order-id-cell">{order._id}</td>
+                    <td>{order.userId?.name}</td>
+                    <td>{order.bookId?.title}</td>
+                    <td>{getStatusBadge(order.status)}</td>
+                    <td>
+                      <select
+                        className="order-status-select"
+                        value={order.status}
+                        onChange={(e) => updateOrderStatus(order._id, e.target.value)}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button
+                        className="view-more-btn"
+                        onClick={() => {
+                          setSelectedOrder(order);
+                          setShowOrderModal(true);
+                        }}
+                      >
+                        View More
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 
@@ -588,22 +674,24 @@ function AdminDashboard() {
         {activeTab === "banners" && (
           <div>
             <h2>Manage Banners</h2>
-
             <input
               type="file"
               onChange={(e) => setBannerFile(e.target.files[0])}
             />
-            <button onClick={addBanner}>➕ Add Banner</button>
-
+            <button className="btn btn-primary" onClick={addBanner}>
+              ➕ Add Banner
+            </button>
             {banners.map((b) => (
-              <div className="card" key={b._id}>
+              <div className="banner-card" key={b._id}>
                 <img src={b.imageUrl} alt="banner" width="200" />
-                <input
-                  type="checkbox"
-                  checked={b.isActive}
-                  onChange={() => activateBanner(b._id)}
-                />
-                Active
+                <label className="banner-toggle">
+                  <input
+                    type="checkbox"
+                    checked={b.isActive}
+                    onChange={() => activateBanner(b._id)}
+                  />
+                  Active
+                </label>
               </div>
             ))}
           </div>
@@ -619,7 +707,6 @@ function AdminDashboard() {
           <Modal.Header closeButton>
             <Modal.Title>Add New Book</Modal.Title>
           </Modal.Header>
-
           <Modal.Body>
             <input
               type="text"
@@ -666,7 +753,6 @@ function AdminDashboard() {
               onChange={(e) => setBookImage(e.target.files[0])}
             />
           </Modal.Body>
-
           <Modal.Footer>
             <button
               className="btn btn-secondary"
@@ -690,7 +776,6 @@ function AdminDashboard() {
           <Modal.Header closeButton>
             <Modal.Title>Edit Book</Modal.Title>
           </Modal.Header>
-
           <Modal.Body>
             <input
               type="text"
@@ -738,7 +823,6 @@ function AdminDashboard() {
             />
             <small className="text-muted">Leave image empty to keep the existing image.</small>
           </Modal.Body>
-
           <Modal.Footer>
             <button
               className="btn btn-secondary"
@@ -748,6 +832,120 @@ function AdminDashboard() {
             </button>
             <button className="btn btn-success" onClick={editBook}>
               Update Book
+            </button>
+          </Modal.Footer>
+        </Modal>
+
+        {/* ================= ORDER DETAILS MODAL ================= */}
+        <Modal
+          show={showOrderModal}
+          onHide={() => { setShowOrderModal(false); setSelectedOrder(null); }}
+          centered
+          size="lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Order Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {selectedOrder && (
+              <table className="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th>Order ID</th>
+                    <td>{selectedOrder._id}</td>
+                  </tr>
+                  <tr>
+                    <th>User ID</th>
+                    <td>{selectedOrder.userId?._id}</td>
+                  </tr>
+                  <tr>
+                    <th>User Name</th>
+                    <td>{selectedOrder.userId?.name}</td>
+                  </tr>
+                  <tr>
+                    <th>User Email</th>
+                    <td>{selectedOrder.userId?.email}</td>
+                  </tr>
+                  <tr>
+                    <th>Book ID</th>
+                    <td>{selectedOrder.bookId?._id}</td>
+                  </tr>
+                  <tr>
+                    <th>Book Title</th>
+                    <td>{selectedOrder.bookId?.title}</td>
+                  </tr>
+                  <tr>
+                    <th>Author</th>
+                    <td>{selectedOrder.bookId?.author}</td>
+                  </tr>
+                  <tr>
+                    <th>Price</th>
+                    <td>₹{selectedOrder.bookId?.price}</td>
+                  </tr>
+                  <tr>
+                    <th>Quantity</th>
+                    <td>{selectedOrder.quantity ?? 1}</td>
+                  </tr>
+                  <tr>
+                    <th>Total Amount</th>
+                    <td>₹{selectedOrder.totalAmount ?? selectedOrder.bookId?.price}</td>
+                  </tr>
+                  <tr>
+                    <th>Shipping Address</th>
+                    <td>
+                      {selectedOrder.shippingAddress ? (
+                        <>
+                          {selectedOrder.shippingAddress.street && (
+                            <div>{selectedOrder.shippingAddress.street}</div>
+                          )}
+                          {selectedOrder.shippingAddress.city && (
+                            <div>{selectedOrder.shippingAddress.city}</div>
+                          )}
+                          {selectedOrder.shippingAddress.state && (
+                            <div>{selectedOrder.shippingAddress.state}</div>
+                          )}
+                          {selectedOrder.shippingAddress.pincode && (
+                            <div>{selectedOrder.shippingAddress.pincode}</div>
+                          )}
+                          {selectedOrder.shippingAddress.country && (
+                            <div>{selectedOrder.shippingAddress.country}</div>
+                          )}
+                        </>
+                      ) : (
+                        "N/A"
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Payment Method</th>
+                    <td>{selectedOrder.paymentMethod ?? "N/A"}</td>
+                  </tr>
+                  <tr>
+                    <th>Payment Status</th>
+                    <td>{selectedOrder.paymentStatus ?? "N/A"}</td>
+                  </tr>
+                  <tr>
+                    <th>Order Status</th>
+                    <td>{getStatusBadge(selectedOrder.status)}</td>
+                  </tr>
+                  <tr>
+                    <th>Ordered At</th>
+                    <td>
+                      {selectedOrder.createdAt
+                        ? new Date(selectedOrder.createdAt).toLocaleString()
+                        : "N/A"}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <button
+              className="btn btn-secondary"
+              onClick={() => { setShowOrderModal(false); setSelectedOrder(null); }}
+            >
+              Close
             </button>
           </Modal.Footer>
         </Modal>
