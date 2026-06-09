@@ -5,7 +5,8 @@ const api = axios.create({
   baseURL: "https://bookstore-backend-dhlm.onrender.com",
 });
 
-// 2. REQUEST INTERCEPTOR
+
+
 // Automatically attach token to every request
 api.interceptors.request.use(
   (config) => {
