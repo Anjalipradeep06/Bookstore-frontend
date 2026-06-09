@@ -2,10 +2,7 @@ import axios from "axios";
 
 // 1. Create axios instance
 const api = axios.create({
-  baseURL: "http://localhost:5000", // your backend server
-  // headers: {
-  //   "Content-Type": "application/json",
-  // },
+  baseURL: "https://bookstore-backend-dhlm.onrender.com",
 });
 
 // 2. REQUEST INTERCEPTOR
